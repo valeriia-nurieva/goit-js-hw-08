@@ -1,5 +1,23 @@
 // Add imports above this line
 import { galleryItems } from './gallery-items';
 // Change code below this line
+const galleryEl = document.querySelector(".gallery");
 
-console.log(galleryItems);
+const markup = createImgCard(galleryItems);
+galleryEl.insertAdjacentHTML("beforeend", markup);
+
+function createImgCard(array) {
+  return array
+    .map(
+      ({ preview, original, description }) =>
+        `<a class="gallery__item" href="${original}">
+  <img class="gallery__image" src="${preview}" alt="${description}" />
+</a> `
+    )
+    .join("");
+}
+
+new SimpleLightbox('.gallery__item', { 
+  captionsData: 'alt',
+  captionDelay: 250,
+ });
