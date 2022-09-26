@@ -10,15 +10,14 @@ initPage();
 
 function initPage() {
   const saveData = load(LOCALE_STORAGE_KEY);
-  const { duration, percent, seconds } = saveData;
   if (!saveData) {
     return;
   }
 
-  player.setCurrentTime(seconds);
-  
+  player.setCurrentTime(saveData.seconds);
+
   const onPlay = function (data) {
-  save(LOCALE_STORAGE_KEY, data);
-};
+    save(LOCALE_STORAGE_KEY, data);
+  };
   player.on('timeupdate', throttle(onPlay, 1000));
 }
