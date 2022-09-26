@@ -3,21 +3,17 @@ import throttle from 'lodash.throttle';
 import { save, load } from './storage';
 
 const videoEl = document.querySelector('#vimeo-player');
-const LOCALE_STORAGE_KEY = 'videoplayer-current-time';
+const LOCALSTORAGE_KEY = 'videoplayer-current-time';
 const player = new Player(videoEl);
 
-initPage();
+function onPlayData(data) {
+  save(LOCALSTORAGE_KEY, data);
+}
 
-function initPage() {
-  const saveData = load(LOCALE_STORAGE_KEY);
-  if (!saveData) {
-    return;
-  }
+const initPage = load(LOCALSTORAGE_KEY);
+player.on('timeupdate', throttle(onPlayData, 1000));
 
-  const onPlay = function (data) {
-    save(LOCALE_STORAGE_KEY, data);
-  };
-  player.on('timeupdate', throttle(onPlay, 1000));
-  player.setCurrentTime(saveData.seconds);
-  console.log(saveData.seconds);
+if (initPage) {
+  const { seconds } = initPage;
+  player.setCurrentTime(seconds);
 }
