@@ -8,18 +8,17 @@ const player = new Player(videoEl);
 
 initPage();
 
-const onPlay = function (data) {
-  save(LOCALE_STORAGE_KEY, data);
-};
-
-const throttledOnTimeUpdate = throttle(onPlay, 1000);
-player.on('timeupdate', throttledOnTimeUpdate);
-
 function initPage() {
   const saveData = load(LOCALE_STORAGE_KEY);
   const { duration, percent, seconds } = saveData;
   if (!saveData) {
     return;
   }
+
   player.setCurrentTime(seconds);
+  
+  const onPlay = function (data) {
+  save(LOCALE_STORAGE_KEY, data);
+};
+  player.on('timeupdate', throttle(onPlay, 1000));
 }
