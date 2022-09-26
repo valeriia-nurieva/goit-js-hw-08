@@ -15,6 +15,7 @@ function initPage() {
   }
 
   player.setCurrentTime(saveData.seconds);
+  console.log(saveData.seconds);
 
   const onPlay = function (data) {
     save(LOCALE_STORAGE_KEY, data);
