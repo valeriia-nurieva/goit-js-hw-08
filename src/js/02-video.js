@@ -14,11 +14,10 @@ function initPage() {
     return;
   }
 
-  player.setCurrentTime(saveData.seconds);
-  console.log(saveData.seconds);
-
   const onPlay = function (data) {
     save(LOCALE_STORAGE_KEY, data);
   };
   player.on('timeupdate', throttle(onPlay, 1000));
+  player.setCurrentTime(saveData.seconds);
+  console.log(saveData.seconds);
 }
